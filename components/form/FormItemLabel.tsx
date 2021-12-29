@@ -26,11 +26,13 @@ function toTooltipProps(tooltip: LabelTooltipType): WrapperTooltipProps | null {
 
   return {
     title: tooltip,
+    trigger: ['click', 'focus', 'hover'],
   };
 }
 
 export interface FormItemLabelProps {
   colon?: boolean;
+  fieldId?: string;
   htmlFor?: string;
   label?: React.ReactNode;
   labelAlign?: FormLabelAlign;
@@ -40,6 +42,7 @@ export interface FormItemLabelProps {
 }
 
 const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixCls: string }> = ({
+  fieldId,
   prefixCls,
   label,
   htmlFor,
@@ -89,10 +92,10 @@ const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixC
         // Tooltip
         const tooltipProps = toTooltipProps(tooltip);
         if (tooltipProps) {
-          const { icon = <QuestionCircleOutlined />, ...restTooltipProps } = tooltipProps;
+          const { icon = <QuestionCircleOutlined tabIndex={0} />, ...restTooltipProps } = tooltipProps;
           const tooltipNode = (
             <Tooltip {...restTooltipProps}>
-              {React.cloneElement(icon, { className: `${prefixCls}-item-tooltip`, title: '' })}
+              {React.cloneElement(icon, { className: `${prefixCls}-item-tooltip` })}
             </Tooltip>
           );
 
@@ -109,7 +112,7 @@ const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixC
           labelChildren = (
             <>
               {labelChildren}
-              <span className={`${prefixCls}-item-optional`} title="">
+              <span aria-hidden="true" className={`${prefixCls}-item-optional`}>
                 {formLocale?.optional || defaultLocale.Form?.optional}
               </span>
             </>
@@ -125,9 +128,8 @@ const FormItemLabel: React.FC<FormItemLabelProps & { required?: boolean; prefixC
         return (
           <Col {...mergedLabelCol} className={labelColClassName}>
             <label
-              htmlFor={htmlFor}
+              htmlFor={htmlFor || fieldId}
               className={labelClassName}
-              title={typeof label === 'string' ? label : ''}
             >
               {labelChildren}
             </label>

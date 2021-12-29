@@ -266,6 +266,7 @@ function FormItem<Values = any>(props: FormItemProps<Values>): React.ReactElemen
       >
         {/* Label */}
         <FormItemLabel
+          fieldId={fieldId}
           htmlFor={fieldId}
           required={isRequired}
           requiredMark={requiredMark}
@@ -277,11 +278,12 @@ function FormItem<Values = any>(props: FormItemProps<Values>): React.ReactElemen
           {...props}
           {...meta}
           errors={debounceErrors}
-          warnings={debounceWarnings}
+          fieldId={fieldId}
+          help={help}
           prefixCls={prefixCls}
+          warnings={debounceWarnings}
           status={mergedValidateStatus}
           validateStatus={mergedValidateStatus}
-          help={help}
         >
           <NoStyleItemContext.Provider value={onSubItemMetaChange}>
             {baseChildren}

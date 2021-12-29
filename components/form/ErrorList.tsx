@@ -28,19 +28,20 @@ function toErrorEntity(
 }
 
 export interface ErrorListProps {
+  className?: string;
+  errors?: React.ReactNode[];
+  fieldId?: string;
   help?: React.ReactNode;
   helpStatus?: ValidateStatus;
-  errors?: React.ReactNode[];
   warnings?: React.ReactNode[];
-  className?: string;
 }
 
 export default function ErrorList({
+  className: rootClassName,
+  errors = EMPTY_LIST,
   help,
   helpStatus,
-  errors = EMPTY_LIST,
   warnings = EMPTY_LIST,
-  className: rootClassName,
 }: ErrorListProps) {
   const { prefixCls } = React.useContext(FormItemPrefixContext);
   const { getPrefixCls } = React.useContext(ConfigContext);
